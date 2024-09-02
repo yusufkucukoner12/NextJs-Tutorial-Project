@@ -215,3 +215,24 @@ export async function fetchFilteredCustomers(query: string) {
     throw new Error('Failed to fetch customer table.');
   }
 }
+
+export async function fetchRecordById(id : string) {
+  try {
+    // Execute the SQL query to fetch the record with the specific ID
+    const result = await sql `SELECT * FROM customers WHERE name = ${id}`;
+
+    // Check if the record was found
+    if (result.rows.length === 0) {
+      return `No record found with id ${id}`;
+    }
+
+    // Return the found record (usually the first one since id is unique)
+    return result.rows[0];
+  } catch (error) {
+    // Handle any errors that occur during the database query
+    console.error('Error fetching record:', error);
+    throw error;
+  }
+}
+
+
